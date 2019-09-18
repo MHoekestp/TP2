@@ -38,7 +38,7 @@ public class TicketMachine {
 	 * @return the price of tickets for this machine
 	 */
 	public int getPrice() {
-		return price;
+		return this.price;
 	}
 
 	/**
@@ -47,14 +47,14 @@ public class TicketMachine {
 	 * @return the total amount collected by the machine.
 	 */
 	public int getTotal() {
-		return total;
+		return this.total;
 	}
 
 	/**
 	 * @return the amount of money already inserted for the next ticket.
 	 */
 	public int getBalance() {
-		return balance;
+		return this.balance;
 	}
 
 	/**
@@ -64,7 +64,12 @@ public class TicketMachine {
 	 * @throws IllegalArgumentException if amount is not positive
 	 */
 	public void insertMoney(int amount) {
+            if(amount>0){
 		balance = balance + amount;
+            }
+            else{
+                throw new IllegalArgumentException("l'argent negatif n'existe pas");
+            }
 	}
 
 	/**
@@ -74,7 +79,9 @@ public class TicketMachine {
 	 */
 	public int refund() {
 		System.out.println("Je vous rends : " + balance + " centimes");
-		return balance;
+                int change = this.balance;
+                this.balance = 0;
+		return change ;
 	}
 
 	/**
@@ -83,6 +90,8 @@ public class TicketMachine {
 	 * @return vrai si le ticket a été imprimé, faux sinon
 	 */
 	public boolean printTicket() {
+            if(this.getBalance()>=this.getPrice()){
+                this.balance = this.balance - this.getPrice(); 
 		// Simulate the printing of a ticket.
 		System.out.println("##################");
 		System.out.println("# The BlueJ Line");
@@ -90,6 +99,12 @@ public class TicketMachine {
 		System.out.println("# " + price + " cents.");
 		System.out.println("##################");
 		System.out.println();
+                
+                this.total += this.getPrice();
 		return true;
+            }
+            else{
+                return false;
+            }
 	}
 }
